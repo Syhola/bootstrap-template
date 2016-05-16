@@ -1,0 +1,9 @@
+{
+  "firebase": "bootstrap-template",
+  "public": "www",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}
