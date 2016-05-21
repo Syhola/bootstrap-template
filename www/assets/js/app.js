@@ -8,19 +8,43 @@ app.config(['$routeProvider',
     $routeProvider
       .when('/', {
         templateUrl: 'partials/register.html',
-        controller: 'firstCtrl'})
+        controller: 'registerCtrl'})
       .when('/chat', {
         templateUrl: 'partials/chat.html',
-        controller: 'firstCtrl'})
+        controller: ''})
       .otherwise({redirectTo: '/'
     });
 }]);
 
-app.controller('firstCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$firebaseObject', '$firebaseArray',
+app.controller('logoutCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$firebaseObject', '$firebaseArray',
+  function ($scope, $location, $route, $firebaseAuth, $firebaseObject, $firebaseArray){
+
+    // Fonction logout
+    $scope.logout = function() {
+
+      var ref = new Firebase('https://bootstrap-template.firebaseio.com/');
+
+      // Check authification
+        var authData = ref.getAuth();
+        $scope.authObj = $firebaseAuth(ref);
+
+        if (authData) {
+          ref.unauth();
+          $location.path('/register');
+        } else {
+          console.log("User is already logged out");
+          alert('User is already logged out.');
+        }
+
+      }
+
+}]);
+
+app.controller('registerCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$firebaseObject', '$firebaseArray',
   function ($scope, $location, $route, $firebaseAuth, $firebaseObject, $firebaseArray){
 
     console.log("Hello World!");
-    
+
     var ref = new Firebase('https://bootstrap-template.firebaseio.com/');
 
     // Check authification
@@ -29,7 +53,6 @@ app.controller('firstCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '
 
       if (authData) {
         console.log("User " + authData.uid + " is logged in with " + authData.provider);
-        $scope.log = true;
         $scope.youremail = authData.password.email;
         var uid = authData.uid;
       } else {
@@ -46,24 +69,17 @@ app.controller('firstCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '
             console.log("User " + userData.uid + " created successfully!");
 
             return $scope.authObj.$authWithPassword({
-              email: $scope.email,
-              password: $scope.password
+              email: $scope.inputEmail,
+              password: $scope.inputPassword
             });
           }).then(function(authData) {
             console.log("Logged in as:", authData.uid);
-            $location.path('/stats');
-            isAuth = true;
+            $location.path('/chat');
           }).catch(function(error) {
             console.error("Error: ", error);
+            alert(error);
           });
 
       }
 
-    // Fonction logout
-    $scope.logout = function() {
-
-        ref.unauth();
-        $route.reload();
-
-      }
   }]);
