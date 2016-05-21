@@ -1,0 +1,48 @@
+<div class="container"> <!-- Header -->
+  <div class="page-header">
+    <h1>Log in <small></small></h1>
+  </div>
+</div>
+
+<div class="container" ng-show="error"> <!-- Alert -->
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+      <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        There is an error with this  email. <a href="#/reset_password" class="alert-link">I do not remember my password.</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container"> <!-- form -->
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+      <form>
+        <div class="form-group">
+          <div class="input-group input-group-lg">
+            <span class="input-group-addon" id="sizing-addon1">@</span>
+            <input type="text" class="form-control" placeholder="Email" ng-model="inputEmail" aria-describedby="sizing-addon1">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group input-group-lg">
+            <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
+            <input type="password" class="form-control" placeholder="Password" ng-model="inputPassword" aria-describedby="sizing-addon1">
+            <div class="input-group-addon"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></div>
+          </div>
+        </div>
+        <p class="text-center"><a href="#/reset_password">I do not remember my password.</a></p>
+        <div class="row">
+          <div class="col-sm-6">
+            <a type="button" href="#/" class="btn btn-default btn-lg btn-block">I do not have an account</a>
+          </div>
+          <div class="col-sm-6">
+            <a ng-click="login()" class="btn btn-info btn-lg btn-block"><strong>Log in</strong></a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>

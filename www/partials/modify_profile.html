@@ -1,15 +1,26 @@
 <div class="container"> <!-- Header -->
   <div class="page-header">
-    <h1>Create your account <small>and enjoy fully this website</small></h1>
+    <h1>My profile <small></small></h1>
   </div>
 </div>
 
-<div class="container"> <!-- Alert fill form -->
+<div class="container" ng-hide="check"> <!-- Alert modifying form -->
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
       <div class="alert alert-warning alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        Please fill the form to access the website.
+        Please modify and do not forget to <strong>save</strong>.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container" ng-show="check"> <!-- Alert modifying form -->
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+      <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        Please <strong>modify your password</strong>.
       </div>
     </div>
   </div>
@@ -19,44 +30,44 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
       <form>
-        <!--<div class="form-group">
+        <div class="form-group">
           <div class="input-group input-group-lg">
             <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-            <input type="text" class="form-control" placeholder="My username" aria-describedby="sizing-addon1">
+            <input type="text" class="form-control" value={{user}} aria-describedby="sizing-addon1">
           </div>
-        </div>-->
+        </div>
         <div class="form-group">
           <div class="input-group input-group-lg">
             <span class="input-group-addon" id="sizing-addon1">@</span>
-            <input type="text" class="form-control" placeholder="Email" ng-model="inputEmail" aria-describedby="sizing-addon1">
+            <input type="text" class="form-control" value={{email}} aria-describedby="sizing-addon1">
           </div>
         </div>
         <div class="form-group">
           <div class="input-group input-group-lg">
             <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-            <input type="password" class="form-control" placeholder="Password" ng-model="inputPassword" aria-describedby="sizing-addon1">
+            <input type="password" class="form-control" value ={{password}} aria-describedby="sizing-addon1">
+            <div class="input-group-addon"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group input-group-lg">
+            <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
+            <input type="password" class="form-control" value={{passwordConfirm}} aria-describedby="sizing-addon1">
             <div class="input-group-addon"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></div>
           </div>
         </div>
         <!--<div class="form-group">
           <div class="input-group input-group-lg">
-            <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-            <input type="password" class="form-control" placeholder="Confirm your password" aria-describedby="sizing-addon1">
-            <div class="input-group-addon"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="input-group input-group-lg">
             <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-education" aria-hidden="true"></span></span>
-            <input type="text" class="form-control" placeholder="University" aria-describedby="sizing-addon1">
+            <input type="text" class="form-control" placeholder={{}} aria-describedby="sizing-addon1">
           </div>
         </div>-->
         <div class="row">
           <div class="col-sm-6">
-            <a type="button" href="#/login" class="btn btn-default btn-lg btn-block">I already have an account</a>
+            <a href="#/profile" class="btn btn-default btn-lg btn-block">Cancel</a>
           </div>
           <div class="col-sm-6">
-            <a ng-click="register()" class="btn btn-info btn-lg btn-block"><strong>Create my account</strong></a>
+            <a ng-click="change()" class="btn btn-info btn-lg btn-block"><strong>Save</strong></a>
           </div>
         </div>
       </form>
