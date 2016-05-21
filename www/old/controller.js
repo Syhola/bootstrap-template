@@ -1,5 +1,6 @@
-//controllers.controller('firstCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$firebaseObject', '$firebaseArray'
 firstCtrl = function ($scope, $location, $route, $firebaseAuth, $firebaseObject, $firebaseArray) {
+
+  console.log("Hello World!");
 
   var ref = new Firebase('https://bootstrap-template.firebaseio.com/');
 
@@ -17,11 +18,11 @@ firstCtrl = function ($scope, $location, $route, $firebaseAuth, $firebaseObject,
     }
 
   // Fonction create user
-      $scope.register = function(){
+      $scope.register = function() {
 
         $scope.authObj.$createUser({
-          email: $scope.email,
-          password: $scope.password
+          email: $scope.inputEmail,
+          password: $scope.inputPassword
         }).then(function(userData) {
           console.log("User " + userData.uid + " created successfully!");
 
@@ -40,7 +41,7 @@ firstCtrl = function ($scope, $location, $route, $firebaseAuth, $firebaseObject,
     }
 
   // Fonction logout
-  $scope.logout = function(){
+  $scope.logout = function() {
 
       ref.unauth();
       $route.reload();
@@ -48,4 +49,3 @@ firstCtrl = function ($scope, $location, $route, $firebaseAuth, $firebaseObject,
     }
 
 }
-//]);
