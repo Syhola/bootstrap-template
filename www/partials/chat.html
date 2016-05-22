@@ -31,9 +31,9 @@
 <div class="container" ng-repeat="message in messages | orderBy:'-time'"> <!-- Show messages -->
   <div class="row">
     <div class="col-lg-12">
-      From {{message.username}}<span class="label label-info pull-right">{{message.date}}</span><br />
+      <span class="label label-info">{{message.date}}</span><br />
+      From {{message.username}}<br />
       {{message.text}}
-      <hr>
     </div>
   </div>
 </div>
