@@ -220,7 +220,7 @@ app.controller('profileCtrl', ['$scope', '$location', '$route', '$firebaseAuth',
       $scope.authObj = $firebaseAuth(ref);
 
       if (authData) {
-        console.log("User " + authData.uid + " is logged in with " + authData.provider);
+        console.log("User " + authData.uid + " is logged in with " + authData.password.email);
       } else {
         console.log("User is logged out");
         $location.path('/');
@@ -239,10 +239,23 @@ app.controller('profileCtrl', ['$scope', '$location', '$route', '$firebaseAuth',
       $scope.email = authData.password.email;
       $scope.user = authData.uid;
 
+      var modif = false;
 
       $scope.change = function () {
 
-
+        if ($scope.inputNewPassword == $scope.inputNewPasswordConfirm) {
+          $scope.authObj.$changePassword({
+            email: authData.password.email,
+            oldPassword: $scope.inputPasswordValidation,
+            newPassword: $scope.inputNewPassword
+          }).then(function() {
+            console.log("Password changed successfully!");
+            $('#myModal2').modal('hide');
+            $location.path('/profile');
+          }).catch(function(error) {
+            console.error("Error: ", error);
+          });
+        }
 
       }
 

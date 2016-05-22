@@ -9,13 +9,13 @@
     <div class="col-lg-8 col-lg-offset-2">
       <div class="alert alert-warning alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        Please modify and do not forget to <strong>save</strong>.
+        Please enter your new password, confirm it and do not forget to <strong>save</strong>.
       </div>
     </div>
   </div>
 </div>
 
-<div class="container" ng-show="check"> <!-- Alert modifying form -->
+<div class="container" ng-show="check"> <!-- Alert modifying password -->
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
       <div class="alert alert-danger alert-dismissible" role="alert">
@@ -30,29 +30,29 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
       <form>
-        <div class="form-group">
+        <!--<div class="form-group">
           <div class="input-group input-group-lg">
             <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-            <input type="text" class="form-control" value={{user}} aria-describedby="sizing-addon1">
+            <input type="text" class="form-control" placeholder={{user}} ng-model="inputNewUser" aria-describedby="sizing-addon1" disabled>
           </div>
-        </div>
-        <div class="form-group">
+        </div>-->
+        <!--<div class="form-group">
           <div class="input-group input-group-lg">
             <span class="input-group-addon" id="sizing-addon1">@</span>
-            <input type="text" class="form-control" value={{email}} aria-describedby="sizing-addon1">
+            <input type="text" class="form-control" placeholder={{email}} ng-model="inputNewEmail" aria-describedby="sizing-addon1" disabled>
           </div>
-        </div>
+        </div>-->
         <div class="form-group">
           <div class="input-group input-group-lg">
             <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-            <input type="password" class="form-control" value ={{password}} aria-describedby="sizing-addon1">
+            <input type="password" class="form-control" ng-model="inputNewPassword" placeholder ="Enter your new password" aria-describedby="sizing-addon1" ng-change="modif = true">
             <div class="input-group-addon"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></div>
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-show="modif">
           <div class="input-group input-group-lg">
             <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-            <input type="password" class="form-control" value={{passwordConfirm}} aria-describedby="sizing-addon1">
+            <input type="password" class="form-control" ng-model="inputNewPasswordConfirm" placeholder="Please confirm your new password" aria-describedby="sizing-addon1">
             <div class="input-group-addon"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></div>
           </div>
         </div>
@@ -67,14 +67,14 @@
             <a href="#/profile" class="btn btn-default btn-lg btn-block">Cancel</a>
           </div>
           <div class="col-sm-6">
-            <a ng-click="change()" class="btn btn-info btn-lg btn-block"><strong>Save</strong></a>
+            <button data-toggle="modal" data-target="#myModal2" class="btn btn-info btn-lg btn-block">Save</button>
           </div>
         </div>
         <hr>
         <div class="row">
           <div class="col-sm-12">
             <!-- Launch Modal -->
-            <button data-toggle="modal" data-target="#myModal" class="btn btn-danger btn-sm btn-block"><strong>Delete profile</strong></button>
+            <button data-toggle="modal" data-target="#myModal" class="btn btn-danger btn-lg btn-block">Delete profile</button>
           </div>
         </div>
       </form>
@@ -106,10 +106,38 @@
               <input type="password" class="form-control" ng-model="inputPasswordDelete" placeholder="Password">
             </div>
           </div>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <button type="button" ng-click="delete()" class="btn btn-danger">Delete this account</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 2-->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modifying profile</h4>
+      </div>
+      <div class="modal-body">
+        <p>Please enter your <strong>old password</strong> to confirm the modification:</p>
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" ng-model="inputPasswordValidation" placeholder="Password">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" ng-click="change()" class="btn btn-danger">Modify this account</button>
       </div>
     </div>
   </div>
