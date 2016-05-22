@@ -74,6 +74,8 @@ app.controller('registerCtrl', ['$scope', '$location', '$route', '$firebaseAuth'
 
     var ref = new Firebase('https://bootstrap-template.firebaseio.com/');
 
+    //$scope.users = $firebaseArray(refUsers);
+
     // Check authification
       var authData = ref.getAuth();
       $scope.authObj = $firebaseAuth(ref);
@@ -88,11 +90,27 @@ app.controller('registerCtrl', ['$scope', '$location', '$route', '$firebaseAuth'
     // Fonction create user
         $scope.register = function() {
 
+          var d = new Date();
+          var day = (d.getDate()<10?'0':'') + d.getDate()
+          var month = ((d.getMonth() + 1)<10?'0':'') + (d.getMonth() + 1);
+          var year = d.getFullYear();
+          var hour = (d.getHours()<10?'0':'') + d.getHours();
+          var minute = (d.getMinutes()<10?'0':'') + d.getMinutes();
+
           $scope.authObj.$createUser({
             email: $scope.inputEmail,
             password: $scope.inputPassword
           }).then(function(userData) {
             console.log("User " + userData.uid + " created successfully!");
+
+            var refUsers = new Firebase('https://bootstrap-template.firebaseio.com/users/');
+            var uniqueUserRef = refUsers.child(userData.uid);
+
+            uniqueUserRef.set({
+                  username: $scope.inputUser,
+                  created_at: Date.now(),
+                  date: day + '/' + month + '/' + year + ' at ' + hour + 'h' + minute
+            });
 
             return $scope.authObj.$authWithPassword({
               email: $scope.inputEmail,
@@ -213,22 +231,32 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
 
       $scope.send = function () {
 
-        var d = new Date();
-        var day = (d.getDate()<10?'0':'') + d.getDate()
-        var month = ((d.getMonth() + 1)<10?'0':'') + (d.getMonth() + 1);
-        var year = d.getFullYear();
-        var hour = (d.getHours()<10?'0':'') + d.getHours();
-        var minute = (d.getMinutes()<10?'0':'') + d.getMinutes();
+        var refUsers = new Firebase('https://bootstrap-template.firebaseio.com/users');
 
-        $scope.messages.$add({
-          text: $scope.newMessageText,
-          user: authData.uid,
-          time: Date.now(),
-          date: day + '/' + month + '/' + year + ' at ' + hour + 'h' + minute
+        var refMessage = new Firebase('https://bootstrap-template.firebaseio.com/messages');
+        $scope.messages = $firebaseArray(refMessage);
+
+        refUsers.child(authData.uid + "/username").on('value', function(username) {
+
+          var d = new Date();
+          var day = (d.getDate()<10?'0':'') + d.getDate()
+          var month = ((d.getMonth() + 1)<10?'0':'') + (d.getMonth() + 1);
+          var year = d.getFullYear();
+          var hour = (d.getHours()<10?'0':'') + d.getHours();
+          var minute = (d.getMinutes()<10?'0':'') + d.getMinutes();
+
+          $scope.messages.$add({
+            text: $scope.newMessageText,
+            user_id: authData.uid,
+            username: username.val(),
+            time: Date.now(),
+            date: day + '/' + month + '/' + year + ' at ' + hour + 'h' + minute
+          });
+
+          $scope.newMessageText = "";
+
         });
-
-        $scope.newMessageText = "";
-
+        
       }
 
   }]);
