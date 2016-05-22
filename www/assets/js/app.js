@@ -246,4 +246,23 @@ app.controller('profileCtrl', ['$scope', '$location', '$route', '$firebaseAuth',
 
       }
 
+      $scope.delete = function () {
+
+        if (authData.password.email == $scope.inputEmailDelete) {
+          $scope.authObj.$removeUser({
+            email: $scope.inputEmailDelete,
+            password: $scope.inputPasswordDelete
+          }).then(function() {
+            console.log("User removed successfully!");
+            $('#myModal').modal('hide');
+            $location.path('/');
+          }).catch(function(error) {
+            console.error("Error: ", error);
+          });
+        } else {
+          console.log('The specified email is not correct.');
+        }
+
+      }
+
   }]);
