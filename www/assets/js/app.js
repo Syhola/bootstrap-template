@@ -213,6 +213,10 @@ app.controller('profileCtrl', ['$scope', '$location', '$route', '$firebaseAuth',
 
     console.log("Hello World!");
 
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+
     var ref = new Firebase('https://bootstrap-template.firebaseio.com/');
 
     // Check authification
