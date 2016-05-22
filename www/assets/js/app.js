@@ -206,6 +206,31 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
         $location.path('/');
       }
 
+    // Push messages
+
+      var refMessage = new Firebase('https://bootstrap-template.firebaseio.com/messages');
+      $scope.messages = $firebaseArray(refMessage);
+
+      $scope.send = function () {
+
+        var d = new Date();
+        var day = (d.getDate()<10?'0':'') + d.getDate()
+        var month = ((d.getMonth() + 1)<10?'0':'') + (d.getMonth() + 1);
+        var year = d.getFullYear();
+        var hour = (d.getHours()<10?'0':'') + d.getHours();
+        var minute = (d.getMinutes()<10?'0':'') + d.getMinutes();
+
+        $scope.messages.$add({
+          text: $scope.newMessageText,
+          user: authData.uid,
+          time: Date.now(),
+          date: day + '/' + month + '/' + year + ' at ' + hour + 'h' + minute
+        });
+
+        $scope.newMessageText = "";
+
+      }
+
   }]);
 
 app.controller('profileCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$firebaseObject', '$firebaseArray',
