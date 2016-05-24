@@ -104,10 +104,10 @@ app.controller('registerCtrl', ['$scope', '$location', '$route', '$firebaseAuth'
             console.log("User " + userData.uid + " created successfully!");
 
             var refUsers = new Firebase('https://bootstrap-template.firebaseio.com/users/');
-            var uniqueUserRef = refUsers.child(userData.uid);
+            var uniqueUserRef = refUsers.child($scope.inputUser);
 
             uniqueUserRef.set({
-                  username: $scope.inputUser,
+                  id: userData.uid,
                   created_at: Date.now(),
                   date: day + '/' + month + '/' + year + ' at ' + hour + 'h' + minute
             });
@@ -205,6 +205,88 @@ app.controller('reset_passwordCtrl', ['$scope', '$location', '$route', '$firebas
 
   }]);
 
+app.controller('profileCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$firebaseObject', '$firebaseArray',
+  function ($scope, $location, $route, $firebaseAuth, $firebaseObject, $firebaseArray){
+
+    console.log("Hello World!");
+
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+
+    var ref = new Firebase('https://bootstrap-template.firebaseio.com/');
+
+    // Check authification
+      var authData = ref.getAuth();
+      $scope.authObj = $firebaseAuth(ref);
+
+      var modif = false;
+
+      if (authData) {
+        console.log("User " + authData.uid + " is logged in with " + authData.password.email);
+      } else {
+        console.log("User is logged out");
+        $location.path('/');
+      }
+
+      if (authData.password.isTemporaryPassword) {
+        $scope.check = true;
+        $scope.password = "";
+        $scope.passwordConfirm = "";
+      } else {
+        $scope.check = false;
+        $scope.password = "Only you know it";
+        $scope.passwordConfirm = "Only you know it";
+      }
+
+      $scope.email = authData.password.email;
+      $scope.user_id = authData.uid;
+
+      ref.once("value", function(snapshot) {
+        var firstNameSnapshot = snapshot.child("name/first");
+        var firstName = firstNameSnapshot.val();
+        // firstName === "Fred"
+      });
+
+      $scope.change = function () {
+
+        if ($scope.inputNewPassword == $scope.inputNewPasswordConfirm) {
+          $scope.authObj.$changePassword({
+            email: authData.password.email,
+            oldPassword: $scope.inputPasswordValidation,
+            newPassword: $scope.inputNewPassword
+          }).then(function() {
+            console.log("Password changed successfully!");
+            $('#myModal2').modal('hide');
+            $location.path('/profile');
+          }).catch(function(error) {
+            console.error("Error: ", error);
+          });
+        }
+
+      }
+
+      $scope.delete = function () {
+
+        if (authData.password.email == $scope.inputEmailDelete) {
+          $scope.authObj.$removeUser({
+            email: $scope.inputEmailDelete,
+            password: $scope.inputPasswordDelete
+          }).then(function() {
+            console.log("User removed successfully!");
+            $('#myModal').modal('hide');
+            $location.path('/');
+          }).catch(function(error) {
+            console.error("Error: ", error);
+          });
+        } else {
+          console.log('The specified email is not correct.');
+        }
+
+      }
+
+  }]);
+
 app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$firebaseObject', '$firebaseArray',
   function ($scope, $location, $route, $firebaseAuth, $firebaseObject, $firebaseArray){
 
@@ -256,98 +338,6 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
           $scope.newMessageText = "";
 
         });
-
-      }
-
-  }]);
-
-app.controller('profileCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$firebaseObject', '$firebaseArray',
-  function ($scope, $location, $route, $firebaseAuth, $firebaseObject, $firebaseArray){
-
-    console.log("Hello World!");
-
-    $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
-    })
-
-    var ref = new Firebase('https://bootstrap-template.firebaseio.com/');
-
-    // Check authification
-      var authData = ref.getAuth();
-      $scope.authObj = $firebaseAuth(ref);
-
-      if (authData) {
-        console.log("User " + authData.uid + " is logged in with " + authData.password.email);
-      } else {
-        console.log("User is logged out");
-        $location.path('/');
-      }
-
-      if (authData.password.isTemporaryPassword) {
-        $scope.check = true;
-        $scope.password = "";
-        $scope.passwordConfirm = "";
-      } else {
-        $scope.check = false;
-        $scope.password = "Only you know it";
-        $scope.passwordConfirm = "Only you know it";
-      }
-
-      $scope.email = authData.password.email;
-      $scope.user_id = authData.uid;
-
-      var refUsers = new Firebase('https://bootstrap-template.firebaseio.com/users');
-
-      refUsers.child(authData.uid + "/username").on('value', function(snap) {
-        $scope.username = snap.val();
-      });
-
-      var obj = $firebaseObject(refUsers.child(authData.uid + "/username"));
-      obj.$loaded()
-        .then(function(data) {
-          $scope.username.$value = data;
-          console.log(data);
-        })
-        .catch(function(error) {
-          console.error("Error:", error);
-        });
-
-      var modif = false;
-
-      $scope.change = function () {
-
-        if ($scope.inputNewPassword == $scope.inputNewPasswordConfirm) {
-          $scope.authObj.$changePassword({
-            email: authData.password.email,
-            oldPassword: $scope.inputPasswordValidation,
-            newPassword: $scope.inputNewPassword
-          }).then(function() {
-            console.log("Password changed successfully!");
-            $('#myModal2').modal('hide');
-            $location.path('/profile');
-          }).catch(function(error) {
-            console.error("Error: ", error);
-          });
-        }
-
-      }
-
-      $scope.delete = function () {
-
-        if (authData.password.email == $scope.inputEmailDelete) {
-          $scope.authObj.$removeUser({
-            email: $scope.inputEmailDelete,
-            password: $scope.inputPasswordDelete
-          }).then(function() {
-            console.log("User removed successfully!");
-            $('#myModal').modal('hide');
-            $location.path('/');
-          }).catch(function(error) {
-            console.error("Error: ", error);
-          });
-        } else {
-          console.log('The specified email is not correct.');
-        }
 
       }
 
