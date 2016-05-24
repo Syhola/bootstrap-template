@@ -26,14 +26,12 @@
   </div>
 </div>
 
-
-
-<div class="container" ng-repeat="message in messages | orderBy:'-time'"> <!-- Show messages -->
-  <div class="row">
-    <div class="col-lg-12">
-      <span class="label label-info">{{message.date}}</span><br />
-      From {{message.username}}<br />
-      {{message.text}}
-    </div>
-  </div>
+<div class="container-fluid">
+  <table class="table table-hover">
+    <tr ng-repeat="message in messages | orderBy: '-time'">
+        <td>{{message.username}}</td>
+        <td>{{message.text}}</td>
+        <td>{{message.date}}</td>
+    </tr>
+  </table>
 </div>

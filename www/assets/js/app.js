@@ -256,7 +256,7 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
           $scope.newMessageText = "";
 
         });
-        
+
       }
 
   }]);
@@ -294,7 +294,23 @@ app.controller('profileCtrl', ['$scope', '$location', '$route', '$firebaseAuth',
       }
 
       $scope.email = authData.password.email;
-      $scope.user = authData.uid;
+      $scope.user_id = authData.uid;
+
+      var refUsers = new Firebase('https://bootstrap-template.firebaseio.com/users');
+
+      refUsers.child(authData.uid + "/username").on('value', function(snap) {
+        $scope.username = snap.val();
+      });
+
+      var obj = $firebaseObject(refUsers.child(authData.uid + "/username"));
+      obj.$loaded()
+        .then(function(data) {
+          $scope.username.$value = data;
+          console.log(data);
+        })
+        .catch(function(error) {
+          console.error("Error:", error);
+        });
 
       var modif = false;
 
