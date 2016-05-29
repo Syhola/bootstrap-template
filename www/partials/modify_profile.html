@@ -1,10 +1,26 @@
+<div class="spinner" ng-show="spinner"> <!-- Loader -->
+  <div class="double-bounce1"></div>
+  <div class="double-bounce2"></div>
+</div>
+
 <div class="container"> <!-- Header -->
   <div class="page-header">
     <h2>My profile <small></small></h2>
   </div>
 </div>
 
-<div class="container" ng-hide="check"> <!-- Alert modifying form -->
+<div class="container" ng-show="success"> <!-- Alert modification success -->
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+      <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        Modification has been saved successfully! <a href="#/profile">Back to my profile page</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container" ng-show="check"> <!-- Alert modifying form -->
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
       <div class="alert alert-warning alert-dismissible" role="alert">
@@ -15,12 +31,12 @@
   </div>
 </div>
 
-<div class="container" ng-show="check"> <!-- Alert modifying password -->
+<div class="container" ng-show="check_pass"> <!-- Alert modifying password -->
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
       <div class="alert alert-danger alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        Please <strong>modify your password</strong>.
+        Please <strong>modify your password</strong>. The temporary one you used is only active for 24 hours.
       </div>
     </div>
   </div>
@@ -29,13 +45,13 @@
 <div class="container"> <!-- form -->
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
-      <form>
-        <div class="form-group">
+      <form name="modify_form">
+        <!--<div class="form-group">
           <div class="input-group input-group-lg">
             <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-            <input type="text" class="form-control" placeholder={{username}} aria-describedby="sizing-addon1" disabled>
+            <input type="text" class="form-control" placeholder={{username}} name="user" aria-describedby="sizing-addon1" disabled>
           </div>
-        </div>
+        </div>-->
         <!--<div class="form-group">
           <div class="input-group input-group-lg">
             <span class="input-group-addon" id="sizing-addon1">@</span>
@@ -45,16 +61,17 @@
         <div class="form-group">
           <div class="input-group input-group-lg">
             <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-            <input type="password" class="form-control" ng-model="inputNewPassword" placeholder ="Enter your new password" aria-describedby="sizing-addon1" ng-change="modif = true">
+            <input type="password" class="form-control" ng-model="inputNewPassword" name="password" placeholder ="Enter your new password" aria-describedby="sizing-addon1" ng-change="modif = true" required>
             <div class="input-group-addon"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></div>
           </div>
         </div>
-        <div class="form-group" ng-show="modif">
+        <div class="form-group">
           <div class="input-group input-group-lg">
             <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-            <input type="password" class="form-control" ng-model="inputNewPasswordConfirm" placeholder="Please confirm your new password" aria-describedby="sizing-addon1">
+            <input type="password" class="form-control" ng-model="inputNewPasswordConfirm" name="password_confirm" placeholder="Please confirm your new password" aria-describedby="sizing-addon1" required>
             <div class="input-group-addon"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></div>
           </div>
+          <span ng-show="error_pw" class="text-danger">Passwords must be the same.</span>
         </div>
         <!--<div class="form-group">
           <div class="input-group input-group-lg">
@@ -67,7 +84,8 @@
             <a href="#/profile" class="btn btn-default btn-lg btn-block">Cancel</a>
           </div>
           <div class="col-sm-6">
-            <button data-toggle="modal" data-target="#myModal2" class="btn btn-info btn-lg btn-block">Save</button>
+            <!--<button type="submit" data-toggle="modal" ng-disabled="modify_form.password.$invalid || modify_form.password_confirm.$invalid" data-target="#myModal2" class="btn btn-info btn-lg btn-block">Save</button>-->
+            <button type="submit" ng-click="open_modal()" ng-disabled="modify_form.password.$invalid || modify_form.password_confirm.$invalid" class="btn btn-info btn-lg btn-block">Save</button>
           </div>
         </div>
         <hr>
@@ -83,7 +101,7 @@
 
 </div>
 
-<!-- Modal -->
+<!-- Modal DELETE -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -93,30 +111,30 @@
       </div>
       <div class="modal-body">
         <p>Be careful, this action is irreversible!</p>
-        <form class="form-horizontal">
+        <form class="form-horizontal" name="delete_form" ng-submit="delete()">
           <div class="form-group">
             <label class="col-sm-2 control-label">Email</label>
             <div class="col-sm-10">
-              <input type="email" class="form-control" ng-model="inputEmailDelete" placeholder="Email">
+              <input type="email" class="form-control" id="inputEmailDelete" ng-model="inputEmailDelete" name="email" placeholder="Email" autofocus required>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label">Password</label>
             <div class="col-sm-10">
-              <input type="password" class="form-control" ng-model="inputPasswordDelete" placeholder="Password">
+              <input type="password" class="form-control" ng-model="inputPasswordDelete" name="password" placeholder="Password" required>
             </div>
           </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="submit" ng-disabled="delete_form.email.$invalid || delete_form.password.$invalid" class="btn btn-danger">Delete this account</button>
+          </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" ng-click="delete()" class="btn btn-danger">Delete this account</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal 2-->
+<!-- Modal 2 MODIFY -->
 <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -126,18 +144,18 @@
       </div>
       <div class="modal-body">
         <p>Please enter your <strong>old password</strong> to confirm the modification:</p>
-        <form class="form-horizontal">
+        <form class="form-horizontal" name="confirm_form" ng-submit="change()">
           <div class="form-group">
             <label class="col-sm-2 control-label">Password</label>
             <div class="col-sm-10">
-              <input type="password" class="form-control" ng-model="inputPasswordValidation" placeholder="Password">
+              <input type="password" class="form-control" id="inputPasswordValidation" ng-model="inputPasswordValidation" name="password" placeholder="Password" autofocus required>
             </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" ng-click="change()" class="btn btn-danger">Modify this account</button>
+        <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="submit" ng-disabled="confirm_form.password.$invalid" class="btn btn-danger">Modify this account</button>
       </div>
     </div>
   </div>

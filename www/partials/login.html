@@ -1,3 +1,8 @@
+<div class="spinner" ng-show="spinner"> <!-- Loader -->
+  <div class="double-bounce1"></div>
+  <div class="double-bounce2"></div>
+</div>
+
 <div class="container"> <!-- Header -->
   <div class="page-header">
     <h2>Log in <small></small></h2>
@@ -18,17 +23,17 @@
 <div class="container"> <!-- form -->
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
-      <form>
+      <form name="login_form" ng-submit="login()">
         <div class="form-group">
           <div class="input-group input-group-lg">
             <span class="input-group-addon" id="sizing-addon1">@</span>
-            <input type="text" class="form-control" placeholder="Email" ng-model="inputEmail" aria-describedby="sizing-addon1">
+            <input type="text" class="form-control" placeholder="Email" ng-model="inputEmail" name="email" aria-describedby="sizing-addon1" required>
           </div>
         </div>
         <div class="form-group">
           <div class="input-group input-group-lg">
             <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-            <input type="password" class="form-control" placeholder="Password" ng-model="inputPassword" aria-describedby="sizing-addon1">
+            <input type="password" class="form-control" placeholder="Password" ng-model="inputPassword" name="password" aria-describedby="sizing-addon1" required>
             <div class="input-group-addon"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></div>
           </div>
         </div>
@@ -38,7 +43,7 @@
             <a type="button" href="#/" class="btn btn-default btn-lg btn-block">I do not have an account</a>
           </div>
           <div class="col-sm-6">
-            <a ng-click="login()" class="btn btn-info btn-lg btn-block"><strong>Log in</strong></a>
+            <button type="submit" class="btn btn-info btn-lg btn-block" ng-disabled="login_form.email.$invalid || login_form.password.$invalid"><strong>Log in</strong></button>
           </div>
         </div>
       </form>

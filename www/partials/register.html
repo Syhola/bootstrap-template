@@ -1,15 +1,20 @@
+<div class="spinner" ng-show="spinner"> <!-- loader -->
+  <div class="double-bounce1"></div>
+  <div class="double-bounce2"></div>
+</div>
+
 <div class="container"> <!-- Header -->
   <div class="page-header">
     <h2>Create your account <small>and enjoy fully this website</small></h2>
   </div>
 </div>
 
-<div class="container"> <!-- Alert fill form -->
+<div class="container" ng-show="error"> <!-- Alert fill form -->
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
-      <div class="alert alert-warning alert-dismissible" role="alert">
+      <div class="alert alert-danger alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        Please fill the form to access the website.
+        Please fill <strong>all the fields</strong> to access the website.
       </div>
     </div>
   </div>
@@ -18,23 +23,23 @@
 <div class="container"> <!-- form -->
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
-      <form>
+      <form name="register_form" ng-submit="register()">
         <div class="form-group">
           <div class="input-group input-group-lg">
             <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-            <input type="text" class="form-control" ng-model="inputUser" placeholder="My username" aria-describedby="sizing-addon1">
+            <input type="text" class="form-control" ng-model="inputUser" name="user" placeholder="My username" aria-describedby="sizing-addon1" required>
           </div>
         </div>
         <div class="form-group">
           <div class="input-group input-group-lg">
             <span class="input-group-addon" id="sizing-addon1">@</span>
-            <input type="text" class="form-control" placeholder="Email" ng-model="inputEmail" aria-describedby="sizing-addon1">
+            <input type="text" class="form-control" placeholder="Email" ng-model="inputEmail" name="email" aria-describedby="sizing-addon1" required>
           </div>
         </div>
         <div class="form-group">
           <div class="input-group input-group-lg">
             <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-            <input type="password" class="form-control" placeholder="Password" ng-model="inputPassword" aria-describedby="sizing-addon1">
+            <input type="password" class="form-control" placeholder="Password" ng-model="inputPassword" name="password" aria-describedby="sizing-addon1" required>
             <div class="input-group-addon"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></div>
           </div>
         </div>
@@ -56,7 +61,7 @@
             <a type="button" href="#/login" class="btn btn-default btn-lg btn-block">I already have an account</a>
           </div>
           <div class="col-sm-6">
-            <a ng-click="register()" class="btn btn-info btn-lg btn-block"><strong>Create my account</strong></a>
+            <button type="submit" class="btn btn-info btn-lg btn-block" ng-disabled="register_form.email.$invalid || register_form.password.$invalid || register_form.user.$invalid"><strong>Create my account</strong></button>
           </div>
         </div>
       </form>
