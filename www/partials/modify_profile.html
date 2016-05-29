@@ -47,26 +47,26 @@
     <div class="col-lg-8 col-lg-offset-2">
       <form name="modify_form">
         <!--<div class="form-group">
-          <div class="input-group input-group-lg">
+          <div class="input-group">
             <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
             <input type="text" class="form-control" placeholder={{username}} name="user" aria-describedby="sizing-addon1" disabled>
           </div>
         </div>-->
         <!--<div class="form-group">
-          <div class="input-group input-group-lg">
+          <div class="input-group">
             <span class="input-group-addon" id="sizing-addon1">@</span>
             <input type="text" class="form-control" placeholder={{email}} ng-model="inputNewEmail" aria-describedby="sizing-addon1" disabled>
           </div>
         </div>-->
         <div class="form-group">
-          <div class="input-group input-group-lg">
+          <div class="input-group">
             <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
             <input type="password" class="form-control" ng-model="inputNewPassword" name="password" placeholder ="Enter your new password" aria-describedby="sizing-addon1" ng-change="modif = true" required>
             <div class="input-group-addon"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></div>
           </div>
         </div>
         <div class="form-group">
-          <div class="input-group input-group-lg">
+          <div class="input-group">
             <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
             <input type="password" class="form-control" ng-model="inputNewPasswordConfirm" name="password_confirm" placeholder="Please confirm your new password" aria-describedby="sizing-addon1" required>
             <div class="input-group-addon"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></div>
@@ -74,25 +74,25 @@
           <span ng-show="error_pw" class="text-danger">Passwords must be the same.</span>
         </div>
         <!--<div class="form-group">
-          <div class="input-group input-group-lg">
+          <div class="input-group">
             <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-education" aria-hidden="true"></span></span>
             <input type="text" class="form-control" placeholder={{}} aria-describedby="sizing-addon1">
           </div>
         </div>-->
         <div class="row">
           <div class="col-sm-6">
-            <a href="#/profile" class="btn btn-default btn-lg btn-block">Cancel</a>
+            <a href="#/profile" class="btn btn-default btn-block">Cancel</a>
           </div>
           <div class="col-sm-6">
             <!--<button type="submit" data-toggle="modal" ng-disabled="modify_form.password.$invalid || modify_form.password_confirm.$invalid" data-target="#myModal2" class="btn btn-info btn-lg btn-block">Save</button>-->
-            <button type="submit" ng-click="open_modal()" ng-disabled="modify_form.password.$invalid || modify_form.password_confirm.$invalid" class="btn btn-info btn-lg btn-block">Save</button>
+            <button type="submit" ng-click="open_modal()" ng-disabled="modify_form.password.$invalid || modify_form.password_confirm.$invalid" class="btn btn-info btn-block">Save</button>
           </div>
         </div>
         <hr>
         <div class="row">
           <div class="col-sm-12">
             <!-- Launch Modal -->
-            <button data-toggle="modal" data-target="#myModal" class="btn btn-danger btn-lg btn-block">Delete profile</button>
+            <button data-toggle="modal" data-target="#myModal" class="btn btn-danger btn-block">Delete profile</button>
           </div>
         </div>
       </form>
@@ -116,12 +116,14 @@
             <label class="col-sm-2 control-label">Email</label>
             <div class="col-sm-10">
               <input type="email" class="form-control" id="inputEmailDelete" ng-model="inputEmailDelete" name="email" placeholder="Email" autofocus required>
+              <div class="text-danger" ng-show="error_delete_email">The specified email is not correct.</div>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label">Password</label>
             <div class="col-sm-10">
               <input type="password" class="form-control" ng-model="inputPasswordDelete" name="password" placeholder="Password" required>
+              <div class="text-danger" ng-show="error_delete_pw">The specified password is not correct.</div>
             </div>
           </div>
           <div class="modal-footer">
@@ -149,6 +151,7 @@
             <label class="col-sm-2 control-label">Password</label>
             <div class="col-sm-10">
               <input type="password" class="form-control" id="inputPasswordValidation" ng-model="inputPasswordValidation" name="password" placeholder="Password" autofocus required>
+              <div class="text-danger" ng-show="error_pw_validation">Please enter your old password.</div>
             </div>
           </div>
         </form>

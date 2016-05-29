@@ -25,14 +25,14 @@
     <div class="col-lg-8 col-lg-offset-2">
       <form name="login_form" ng-submit="login()">
         <div class="form-group">
-          <div class="input-group input-group-lg">
+          <div class="input-group">
             <span class="input-group-addon" id="sizing-addon1">@</span>
             <input type="text" class="form-control" placeholder="Email" ng-model="inputEmail" name="email" aria-describedby="sizing-addon1" required>
           </div>
           <span class="text-danger" ng-show="error_email">The specified email is not valid or the password is not correct.</span>
         </div>
         <div class="form-group">
-          <div class="input-group input-group-lg">
+          <div class="input-group">
             <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
             <input type="password" class="form-control" placeholder="Password" ng-model="inputPassword" name="password" aria-describedby="sizing-addon1" required>
             <div class="input-group-addon"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></div>
@@ -41,10 +41,10 @@
         <p class="text-center"><a href="#/reset_password">I do not remember my password.</a></p>
         <div class="row">
           <div class="col-sm-6">
-            <a type="button" href="#/" class="btn btn-default btn-lg btn-block">I do not have an account</a>
+            <a type="button" href="#/" class="btn btn-default btn-block">I do not have an account</a>
           </div>
           <div class="col-sm-6">
-            <button type="submit" class="btn btn-info btn-lg btn-block" ng-disabled="login_form.email.$invalid || login_form.password.$invalid"><strong>Log in</strong></button>
+            <button type="submit" class="btn btn-info btn-block" ng-disabled="login_form.email.$invalid || login_form.password.$invalid"><strong>Log in</strong></button>
           </div>
         </div>
       </form>

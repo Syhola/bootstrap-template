@@ -247,6 +247,9 @@ app.controller('profileCtrl', ['$scope', '$location', '$route', '$firebaseAuth',
       $scope.authObj = $firebaseAuth(ref);
 
       $scope.error_pw = false;
+      $scope.error_pw_validation = false;
+      $scope.error_delete_pw = false;
+      $scope.error_delete_email = false;
 
       if (authData) {
         console.log("User " + authData.uid + " is logged in with " + authData.password.email);
@@ -320,6 +323,7 @@ app.controller('profileCtrl', ['$scope', '$location', '$route', '$firebaseAuth',
             $scope.inputNewPasswordConfirm = "";
           }).catch(function(error) {
             console.error("Error: ", error);
+            $scope.error_pw_validation = true;
             $scope.spinner = false;
           });
         }
@@ -327,6 +331,9 @@ app.controller('profileCtrl', ['$scope', '$location', '$route', '$firebaseAuth',
       }
 
       $scope.delete = function () {
+
+        $scope.error_delete_pw = false;
+        $scope.error_delete_email = false;
 
         if (authData.password.email == $scope.inputEmailDelete) {
           $scope.spinner = true;
@@ -341,10 +348,12 @@ app.controller('profileCtrl', ['$scope', '$location', '$route', '$firebaseAuth',
           }).catch(function(error) {
             console.error("Error: ", error);
             $scope.spinner = false;
+            $scope.error_delete_pw = true;
           });
         } else {
           console.log('The specified email is not correct.');
           $scope.spinner = false;
+          $scope.error_delete_email = true;
         }
 
       }
