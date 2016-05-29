@@ -76,6 +76,7 @@ app.controller('registerCtrl', ['$scope', '$location', '$route', '$firebaseAuth'
 
     $scope.spinner = false;
     $scope.error = false;
+    $scope.error_email = false;
 
     // Check authification
       var authData = ref.getAuth();
@@ -123,13 +124,14 @@ app.controller('registerCtrl', ['$scope', '$location', '$route', '$firebaseAuth'
               console.log("Logged in as:", authData.uid);
               $scope.spinner = false;
               $scope.error = false;
+              $scope.error_email = false;
               $location.path('/chat');
             }).catch(function(error) {
               console.error("Error: ", error);
               $scope.spinner = false;
               $scope.error = true;
+              $scope.error_email = true;
               $scope.inputPassword = "";
-              alert(error);
             });
 
       }
@@ -140,14 +142,14 @@ app.controller('loginCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '
   function ($scope, $location, $route, $firebaseAuth, $firebaseObject, $firebaseArray){
 
     $scope.spinner = false;
+    $scope.error_email = false;
+    $scope.error = false;
 
     var ref = new Firebase('https://bootstrap-template.firebaseio.com/');
 
     // Check authification
       var authData = ref.getAuth();
       $scope.authObj = $firebaseAuth(ref);
-
-      $scope.error = false;
 
       if (authData) {
         console.log("User " + authData.uid + " is logged in with " + authData.provider);
@@ -167,6 +169,7 @@ app.controller('loginCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '
           }).then(function(authData) {
             console.log("Logged in as:", authData.uid);
             $scope.spinner = false;
+            $scope.error_email = false;
             if (authData.password.isTemporaryPassword) {
               $location.path('/modify_profile');
             } else {
@@ -176,6 +179,7 @@ app.controller('loginCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '
             console.error("Authentication failed:", error);
             $scope.error = true;
             $scope.spinner = false;
+            $scope.error_email = true;
             $scope.inputPassword = "";
           });
 
