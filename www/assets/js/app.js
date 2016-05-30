@@ -423,8 +423,32 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
 app.controller('dashboardCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$firebaseObject', '$firebaseArray',
   function ($scope, $location, $route, $firebaseAuth, $firebaseObject, $firebaseArray){
 
-    var ref = new Firebase('https://bootstrap-template.firebaseio.com/');
+    // Count of users
+    var refUsers = new Firebase('https://bootstrap-template.firebaseio.com/users');
+    var obj = $firebaseArray(refUsers);
+    var count = 0;
+    obj.$loaded(function(obj) {
+      for(var i=0, len = obj.length; i < len; i++) {
+        count++;
+      }
+      $scope.NbUsers = count;
 
+      // Progressbar
+      var pourcentageValue = count*100/100;
+      $scope.pourcentage = pourcentageValue;
+      document.getElementById("progressbar").style.width = String(pourcentageValue) + "%";
+    });
+
+    // Count of messages
+    var refMessages = new Firebase('https://bootstrap-template.firebaseio.com/messages');
+    var obj2 = $firebaseArray(refMessages);
+    var count2 = 0;
+    obj2.$loaded(function(obj2) {
+      for(var i=0, len = obj2.length; i < len; i++) {
+        count2++;
+      }
+      $scope.NbMessages = count2;
+    });
 
 
   }]);
