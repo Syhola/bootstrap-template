@@ -9,6 +9,9 @@ app.config(['$routeProvider',
       .when('/', {
         templateUrl: 'partials/register.html',
         controller: 'registerCtrl'})
+      .when('/dashboard', {
+        templateUrl: 'partials/dashboard.html',
+        controller: 'dashboardCtrl'})
       .when('/login', {
         templateUrl: 'partials/login.html',
         controller: 'loginCtrl'})
@@ -360,8 +363,8 @@ app.controller('profileCtrl', ['$scope', '$location', '$route', '$firebaseAuth',
 
   }]);
 
-app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$firebaseObject', '$firebaseArray', '$q',
-  function ($scope, $location, $route, $firebaseAuth, $firebaseObject, $firebaseArray, $q){
+app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$firebaseObject', '$firebaseArray',
+  function ($scope, $location, $route, $firebaseAuth, $firebaseObject, $firebaseArray){
 
     var ref = new Firebase('https://bootstrap-template.firebaseio.com/');
 
@@ -414,5 +417,14 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
         $scope.newMessageText = "";
 
       }
+
+  }]);
+
+app.controller('dashboardCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$firebaseObject', '$firebaseArray',
+  function ($scope, $location, $route, $firebaseAuth, $firebaseObject, $firebaseArray){
+
+    var ref = new Firebase('https://bootstrap-template.firebaseio.com/');
+
+
 
   }]);
