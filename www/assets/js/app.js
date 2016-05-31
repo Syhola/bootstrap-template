@@ -275,12 +275,21 @@ app.controller('profileCtrl', ['$scope', '$location', '$route', '$firebaseAuth',
         $('#inputEmailDelete').focus()
       })
 
-      /*ref.once("value", function(snapshot) {
-        var firstNameSnapshot = snapshot.child("name/first");
-        var firstName = firstNameSnapshot.val();
-        // firstName === "Fred"
-      });*/
+      // Show username
+      var refUsers = new Firebase('https://bootstrap-template.firebaseio.com/usersID');
+      var obj = $firebaseArray(refUsers);
+      var username = "";
+      obj.$loaded(function(obj) {
+        for(var i=0, len = obj.length; i < len; i++) {
+          if (obj[i].$id == authData.uid) {
+            username = obj[i].username;
+            i = obj.length;
+          }
+        }
+        $scope.username = username;
+      });
 
+      // Functions
       $scope.open_modal = function () {
 
         if ($scope.inputNewPassword === $scope.inputNewPasswordConfirm) {
