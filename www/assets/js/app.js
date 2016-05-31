@@ -80,6 +80,7 @@ app.controller('registerCtrl', ['$scope', '$location', '$route', '$firebaseAuth'
     $scope.spinner = false;
     $scope.error = false;
     $scope.error_email = false;
+    $scope.error_user = false;
 
     // Check authification
       var authData = ref.getAuth();
@@ -97,51 +98,54 @@ app.controller('registerCtrl', ['$scope', '$location', '$route', '$firebaseAuth'
 
           $scope.spinner = true;
 
-            var d = new Date();
-            var day = (d.getDate()<10?'0':'') + d.getDate()
-            var month = ((d.getMonth() + 1)<10?'0':'') + (d.getMonth() + 1);
-            var year = d.getFullYear();
-            var hour = (d.getHours()<10?'0':'') + d.getHours();
-            var minute = (d.getMinutes()<10?'0':'') + d.getMinutes();
+          // Get Date
+          var d = new Date();
+          var day = (d.getDate()<10?'0':'') + d.getDate()
+          var month = ((d.getMonth() + 1)<10?'0':'') + (d.getMonth() + 1);
+          var year = d.getFullYear();
+          var hour = (d.getHours()<10?'0':'') + d.getHours();
+          var minute = (d.getMinutes()<10?'0':'') + d.getMinutes();
 
-            $scope.authObj.$createUser({
-              email: $scope.inputEmail,
-              password: $scope.inputPassword
-            }).then(function(userData) {
-              console.log("User " + userData.uid + " created successfully!");
+          // Create user auth
+          $scope.authObj.$createUser({
+            email: $scope.inputEmail,
+            password: $scope.inputPassword
+          }).then(function(userData) {
+            console.log("User " + userData.uid + " created successfully!");
 
-              var refUsers = new Firebase('https://bootstrap-template.firebaseio.com/users/');
-              refUsers.child($scope.inputUser).set({
-                    id: userData.uid,
-                    created_at: Date.now(),
-                    date: day + '/' + month + '/' + year + ' at ' + hour + 'h' + minute
-              });
-
-              var refUsersID = new Firebase('https://bootstrap-template.firebaseio.com/usersID');
-              refUsersID.child(userData.uid).set({
-                username: $scope.inputUser,
-                created_at: Date.now(),
-                date: day + '/' + month + '/' + year + ' at ' + hour + 'h' + minute
-              })
-
-              return $scope.authObj.$authWithPassword({
-                email: $scope.inputEmail,
-                password: $scope.inputPassword
-              });
-            }).then(function(authData) {
-              console.log("Logged in as:", authData.uid);
-              $scope.spinner = false;
-              $scope.error = false;
-              $scope.error_email = false;
-              $location.path('/chat');
-            }).catch(function(error) {
-              console.error("Error: ", error);
-              $scope.spinner = false;
-              $scope.error = true;
-              $scope.error_email = true;
-              $scope.inputPassword = "";
+            // Create user
+            var refUsers = new Firebase('https://bootstrap-template.firebaseio.com/users/');
+            refUsers.child($scope.inputUser).set({
+                  id: userData.uid,
+                  created_at: Date.now(),
+                  date: day + '/' + month + '/' + year + ' at ' + hour + 'h' + minute
             });
 
+            // Create user ID
+            var refUsersID = new Firebase('https://bootstrap-template.firebaseio.com/usersID');
+            refUsersID.child(userData.uid).set({
+              username: $scope.inputUser,
+              created_at: Date.now(),
+              date: day + '/' + month + '/' + year + ' at ' + hour + 'h' + minute
+            })
+
+            return $scope.authObj.$authWithPassword({
+              email: $scope.inputEmail,
+              password: $scope.inputPassword
+            });
+          }).then(function(authData) {
+            console.log("Logged in as:", authData.uid);
+            $scope.spinner = false;
+            $scope.error = false;
+            $scope.error_email = false;
+            $location.path('/chat');
+          }).catch(function(error) {
+            console.error("Error: ", error);
+            $scope.spinner = false;
+            $scope.error = true;
+            $scope.error_email = true;
+            $scope.inputPassword = "";
+          });
       }
 
   }]);
