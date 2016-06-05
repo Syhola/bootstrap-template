@@ -47,7 +47,12 @@
 }
 
 /* CHAT */
- #block_send
+ .panel-title
  {
-   
+   font-size: 100%;
+ }
+
+ .panel-heading, .panel-body {
+   padding-top: 5px;
+   padding-bottom: 5px;
  }

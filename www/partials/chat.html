@@ -20,7 +20,7 @@
   </div>
 </div>
 
-<div class="container-fluid">
+<!--<div class="container-fluid">
   <table class="table table-condensed table-striped">
     <tr ng-repeat="message in messages | orderBy: '-time'">
         <td>{{message.username}}</td>
@@ -29,4 +29,15 @@
         <td><span class="glyphicon glyphicon-remove" aria-hidden="true" ng-show="message.user_id == userID" ng-click="removeMessage(message)"></td>
     </tr>
   </table>
+</div>-->
+
+<div class="panel panel-default" ng-repeat="message in messages | orderBy: '-time'">
+  <div class="panel-heading">
+    <span class="panel-title">{{message.username}}</span>
+    <span class="glyphicon glyphicon-remove pull-right" aria-hidden="true" ng-show="message.user_id == userID" ng-click="removeMessage(message)"></span>
+  </div>
+  <div class="panel-body">
+    <div>{{message.text}}</div>
+    <div class="pull-right"><em>{{message.date}}</em></div>
+  </div>
 </div>
