@@ -26,6 +26,7 @@
         <td>{{message.username}}</td>
         <td>{{message.text}}</td>
         <td>{{message.date}}</td>
+        <td><span class="glyphicon glyphicon-remove" aria-hidden="true" ng-show="message.user_id == userID" ng-click="removeMessage(message)"></td>
     </tr>
   </table>
 </div>

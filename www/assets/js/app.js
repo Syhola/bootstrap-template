@@ -424,6 +424,7 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
     // Check authification
       var authData = ref.getAuth();
       $scope.authObj = $firebaseAuth(ref);
+      $scope.userID = authData.uid;
 
       if (authData) {
         console.log("User " + authData.uid + " is logged in with " + authData.provider);
@@ -433,8 +434,7 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
         $location.path('/');
       }
 
-    // Push messages
-
+    // Show messages
       var refMessage = new Firebase('https://bootstrap-template.firebaseio.com/messages');
       $scope.messages = $firebaseArray(refMessage);
 
@@ -465,6 +465,10 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
 
         $scope.newMessageText = "";
 
+      }
+
+      $scope.removeMessage = function (message) {
+        $scope.messages.$remove(message);
       }
 
   }]);
