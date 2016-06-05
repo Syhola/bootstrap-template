@@ -421,6 +421,10 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
       $('[data-toggle="tooltip"]').tooltip()
     })
 
+    $(function () {
+      $('[data-toggle="popover"]').popover()
+    })
+
     // Check authification
       var authData = ref.getAuth();
       $scope.authObj = $firebaseAuth(ref);
@@ -435,9 +439,11 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
       }
 
     // Show messages
+      var page = 10;
       var refMessage = new Firebase('https://bootstrap-template.firebaseio.com/messages');
-      $scope.messages = $firebaseArray(refMessage);
+      $scope.messages = $firebaseArray(refMessage.limitToLast(page));
 
+      // Show username
       var refUsersID = new Firebase('https://bootstrap-template.firebaseio.com/usersID');
       var username = "";
       refUsersID.once("value", function(snapshot) {
@@ -445,6 +451,11 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
         username = usernamesnap.val();
         console.log(username);
       });
+
+      $scope.loadMore = function () {
+        page = page + 10;
+        $scope.messages = $firebaseArray(refMessage.limitToLast(page));
+      }
 
       $scope.send = function () {
 

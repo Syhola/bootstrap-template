@@ -34,10 +34,16 @@
 <div class="panel panel-default" ng-repeat="message in messages | orderBy: '-time'">
   <div class="panel-heading">
     <span class="panel-title">{{message.username}}</span>
-    <span class="glyphicon glyphicon-remove pull-right" aria-hidden="true" ng-show="message.user_id == userID" ng-click="removeMessage(message)"></span>
+    <span class="glyphicon glyphicon-remove pull-right mouse" aria-hidden="true" ng-show="message.user_id == userID" ng-click="removeMessage(message)"></span>
   </div>
   <div class="panel-body">
     <div>{{message.text}}</div>
     <div class="pull-right"><em>{{message.date}}</em></div>
   </div>
 </div>
+
+<nav>
+  <ul class="pager">
+    <li><a href="" ng-click="loadMore()" class="">Load more...</a></li>
+  </ul>
+</nav>
