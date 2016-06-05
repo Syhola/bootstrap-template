@@ -118,8 +118,6 @@ app.controller('registerCtrl', ['$scope', '$location', '$route', '$firebaseAuth'
             // Boucle
             for(var i=0, len = obj.length; i < len; i++) {
 
-              console.log('commence');
-
               if (obj[i].$id != $scope.inputUser) {
                 console.log('user OK');
               } else {
@@ -132,7 +130,6 @@ app.controller('registerCtrl', ['$scope', '$location', '$route', '$firebaseAuth'
 
             }
 
-              console.log('create user');
                 // Create user auth
                 $scope.authObj.$createUser({
                   email: $scope.inputEmail,
@@ -380,9 +377,9 @@ app.controller('profileCtrl', ['$scope', '$location', '$route', '$firebaseAuth',
 
         $scope.error_delete_pw = false;
         $scope.error_delete_email = false;
+        $scope.spinner = true;
 
         if (authData.password.email == $scope.inputEmailDelete) {
-          $scope.spinner = true;
           $scope.authObj.$removeUser({
             email: $scope.inputEmailDelete,
             password: $scope.inputPasswordDelete
