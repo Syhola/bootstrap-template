@@ -460,7 +460,8 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
           user_id: authData.uid,
           username: username,
           time: Date.now(),
-          date: day + '/' + month + '/' + year + ' at ' + hour + 'h' + minute
+          date: day + '/' + month + '/' + year,
+          hour: hour + 'h' + minute
         });
 
         $scope.newMessageText = "";
