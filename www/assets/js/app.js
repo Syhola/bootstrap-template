@@ -435,9 +435,8 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
       }
 
     // Show messages
-      var page = 10;
       var refMessage = new Firebase('https://bootstrap-template.firebaseio.com/messages');
-      $scope.messages = $firebaseArray(refMessage.limitToLast(page));
+      $scope.messages = $firebaseArray(refMessage);
 
       // Show username
       var refUsersID = new Firebase('https://bootstrap-template.firebaseio.com/usersID');
@@ -447,34 +446,6 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
         username = usernamesnap.val();
         console.log(username);
       });
-
-      $scope.previousPage = function () {
-
-        var messagesObject = $firebaseArray(refMessage);
-        var countMessages = 0;
-
-        messagesObject.$loaded(function(obj2) {
-          for(var i=0, len = messagesObject.length; i < len; i++) {
-            countMessages++;
-          }
-
-          // Here the pagination
-          console.log(countMessages);
-          if (page < 11) {
-            page = 10;
-          } else {
-            page = page - 10;
-          }
-          
-          $scope.messages = $firebaseArray(refMessage.limitToLast(page));
-        });
-
-      }
-
-      $scope.nextPage = function () {
-        page = page + 10;
-        $scope.messages = $firebaseArray(refMessage.limitToLast(page));
-      }
 
       $scope.send = function () {
 
@@ -502,7 +473,23 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
         $scope.messages.$remove(message);
       }
 
+      // Pagination
+      $scope.currentPage = 0;
+      $scope.pageSize = 10;
+      $scope.data = $firebaseArray(refMessage);
+
+      $scope.numberOfPages = function () {
+          return Math.ceil($scope.data.length/$scope.pageSize);
+      }
+
   }]);
+
+app.filter('startFrom', function() {
+    return function(input, start) {
+        start = +start; //parse to int
+        return input.slice(start);
+    }
+});
 
 app.controller('dashboardCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$firebaseObject', '$firebaseArray',
   function ($scope, $location, $route, $firebaseAuth, $firebaseObject, $firebaseArray){
