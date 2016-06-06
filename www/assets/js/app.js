@@ -421,10 +421,6 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
       $('[data-toggle="tooltip"]').tooltip()
     })
 
-    $(function () {
-      $('[data-toggle="popover"]').popover()
-    })
-
     // Check authification
       var authData = ref.getAuth();
       $scope.authObj = $firebaseAuth(ref);
@@ -452,7 +448,30 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
         console.log(username);
       });
 
-      $scope.loadMore = function () {
+      $scope.previousPage = function () {
+
+        var messagesObject = $firebaseArray(refMessage);
+        var countMessages = 0;
+
+        messagesObject.$loaded(function(obj2) {
+          for(var i=0, len = messagesObject.length; i < len; i++) {
+            countMessages++;
+          }
+
+          // Here the pagination
+          console.log(countMessages);
+          if (page < 11) {
+            page = 10;
+          } else {
+            page = page - 10;
+          }
+          
+          $scope.messages = $firebaseArray(refMessage.limitToLast(page));
+        });
+
+      }
+
+      $scope.nextPage = function () {
         page = page + 10;
         $scope.messages = $firebaseArray(refMessage.limitToLast(page));
       }
