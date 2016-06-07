@@ -437,6 +437,17 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
     // Show messages
       var refMessage = new Firebase('https://bootstrap-template.firebaseio.com/messages');
       $scope.messages = $firebaseArray(refMessage);
+      messagesObj = $firebaseArray(refMessage);
+
+      // Manage empty array
+      /*messagesObj.$loaded(function(messagesObj) {
+        if (typeof messagesObj !== 'undefined' && messagesObj.length > 0) {
+          console.log('array non vide');
+        } else {
+          console.log('array empty');
+          $scope.emptyArray = true;
+        }
+      });*/
 
       // Show username
       var refUsersID = new Firebase('https://bootstrap-template.firebaseio.com/usersID');
@@ -447,14 +458,17 @@ app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$
         console.log(username);
       });
 
-      $scope.send = function () {
+      // Date
+      var d = new Date();
+      var day = (d.getDate()<10?'0':'') + d.getDate()
+      var month = ((d.getMonth() + 1)<10?'0':'') + (d.getMonth() + 1);
+      var year = d.getFullYear();
+      var hour = (d.getHours()<10?'0':'') + d.getHours();
+      var minute = (d.getMinutes()<10?'0':'') + d.getMinutes();
 
-        var d = new Date();
-        var day = (d.getDate()<10?'0':'') + d.getDate()
-        var month = ((d.getMonth() + 1)<10?'0':'') + (d.getMonth() + 1);
-        var year = d.getFullYear();
-        var hour = (d.getHours()<10?'0':'') + d.getHours();
-        var minute = (d.getMinutes()<10?'0':'') + d.getMinutes();
+      $scope.today = day + '/' + month + '/' + year;
+
+      $scope.send = function () {
 
         $scope.messages.$add({
           text: $scope.newMessageText,
