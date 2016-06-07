@@ -7,6 +7,9 @@ app.config(['$routeProvider',
   function($routeProvider){
     $routeProvider
       .when('/', {
+        templateUrl: 'partials/landing.html',
+        controller: ''})
+      .when('/register', {
         templateUrl: 'partials/register.html',
         controller: 'registerCtrl'})
       .when('/dashboard', {
@@ -415,20 +418,23 @@ app.controller('profileCtrl', ['$scope', '$location', '$route', '$firebaseAuth',
 app.controller('chatCtrl', ['$scope', '$location', '$route', '$firebaseAuth', '$firebaseObject', '$firebaseArray',
   function ($scope, $location, $route, $firebaseAuth, $firebaseObject, $firebaseArray){
 
-    var ref = new Firebase('https://bootstrap-template.firebaseio.com/');
-
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
     })
 
+    var ref = new Firebase('https://bootstrap-template.firebaseio.com/');
+
     // Check authification
       var authData = ref.getAuth();
       $scope.authObj = $firebaseAuth(ref);
-      $scope.userID = authData.uid;
+
+      $scope.error_pw = false;
+      $scope.error_pw_validation = false;
+      $scope.error_delete_pw = false;
+      $scope.error_delete_email = false;
 
       if (authData) {
-        console.log("User " + authData.uid + " is logged in with " + authData.provider);
-        $location.path('/chat');
+        console.log("User " + authData.uid + " is logged in with " + authData.password.email);
       } else {
         console.log("User is logged out");
         $location.path('/');
